@@ -14,7 +14,7 @@ GLuint programColor;
 GLuint programTexture;
 
 GLuint GLOBAL_VARIABLE;
-
+GLuint SHIP_TEXTURE;
 
 Core::Shader_Loader shaderLoader;
 
@@ -109,10 +109,14 @@ void renderScene()
 
 	// Macierz statku "przyczepia" go do kamery. Warto przeanalizowac te linijke i zrozumiec jak to dziala.
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
-	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
 
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(2,0,2)), GLOBAL_VARIABLE);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(-2,0,-2)), GLOBAL_VARIABLE);
+
+	//Tektura statku - Mikolaj
+	drawObjectTexture(&shipModel, shipModelMatrix, SHIP_TEXTURE);
+	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
+
 
 	glutSwapBuffers();
 }
@@ -125,6 +129,7 @@ void init()
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
 	shipModel = obj::loadModelFromFile("models/spaceship.obj");
 	GLOBAL_VARIABLE = Core::LoadTexture("textures/earth.png");
+	SHIP_TEXTURE = Core::LoadTexture("textures/spaceshiptexture.png");
 	
 }
 
@@ -143,9 +148,11 @@ int main(int argc, char ** argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(1200, 800);
-	glutCreateWindow("Solar System. Mikolaj Balcerek s416040, Rafal Piotrowski");
+
+	//Mikolaj
+	glutInitWindowPosition(0, 0); //gdzie na ekranie wyrzuci program
+	glutInitWindowSize(1200, 800); //rozmiar ekranu
+	glutCreateWindow("Solar System. Mikolaj Balcerek s416040, Rafal Piotrowski"); //podpis
 	glewInit();
 
 	init();
