@@ -15,11 +15,23 @@ GLuint programTexture;
 
 GLuint GLOBAL_VARIABLE;
 GLuint SHIP_TEXTURE;
+GLuint THE_SUN;
+GLuint MERKURY;
+GLuint WENUS;
+GLuint ZIEMIA;
+GLuint MARS;
+GLuint JOWISZ;
+GLuint SATURN;
+GLuint URAN;
+GLuint NEPTUN;
+GLuint STONE;
+GLuint DEATHSTAR;
 
 Core::Shader_Loader shaderLoader;
 
 obj::Model shipModel;
 obj::Model sphereModel;
+obj::Model square;
 
 float cameraAngle = 0;
 glm::vec3 cameraPos = glm::vec3(-5, 0, 0);
@@ -89,6 +101,7 @@ void drawObjectTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint texture
 	glUseProgram(0);
 }
 
+
 void drawObjectProceduralTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint textureID)
 {
 
@@ -110,8 +123,23 @@ void renderScene()
 	// Macierz statku "przyczepia" go do kamery. Warto przeanalizowac te linijke i zrozumiec jak to dziala.
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
 
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(2,0,2)), GLOBAL_VARIABLE);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(-2,0,-2)), GLOBAL_VARIABLE);
+
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(2.8f)), THE_SUN);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,4))* glm::scale(glm::vec3(0.5f)), MERKURY);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,7))* glm::scale(glm::vec3(0.8f)), WENUS);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 10))* glm::scale(glm::vec3(1.0f)), ZIEMIA);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 14))* glm::scale(glm::vec3(0.7f)), MARS);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 18))* glm::scale(glm::vec3(2.0f)), JOWISZ);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 22))* glm::scale(glm::vec3(1.8f)), SATURN);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 26))* glm::scale(glm::vec3(1.6f)), URAN);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* glm::scale(glm::vec3(1.4f)), NEPTUN);
+	//drawObjectTexture(&square, glm::translate(glm::vec3(0, 2, 5))* glm::scale(glm::vec3(0.5f)), STONE);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 5, 5))* glm::scale(glm::vec3(0.5f)), DEATHSTAR);
+
+
+	
+	
+
 
 	//Tektura statku - Mikolaj
 	drawObjectTexture(&shipModel, shipModelMatrix, SHIP_TEXTURE);
@@ -128,8 +156,20 @@ void init()
 	programTexture = shaderLoader.CreateProgram("shaders/shader_tex.vert", "shaders/shader_tex.frag");
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
 	shipModel = obj::loadModelFromFile("models/spaceship.obj");
+	square = obj::loadModelFromFile("models/square.obj");
 	GLOBAL_VARIABLE = Core::LoadTexture("textures/earth.png");
+	THE_SUN = Core::LoadTexture("textures/sun.png");
 	SHIP_TEXTURE = Core::LoadTexture("textures/spaceshiptexture.png");
+	MERKURY = Core::LoadTexture("textures/merkury.png");
+	WENUS = Core::LoadTexture("textures/wenus.png");
+	ZIEMIA = Core::LoadTexture("textures/earth.png");
+	MARS = Core::LoadTexture("textures/mars.png");
+	JOWISZ = Core::LoadTexture("textures/jowisz.png");
+	SATURN = Core::LoadTexture("textures/saturn.png");
+	URAN = Core::LoadTexture("textures/uran.png");
+	NEPTUN = Core::LoadTexture("textures/neptun.png");
+	STONE = Core::LoadTexture("textures/minecraft.png");
+	DEATHSTAR = Core::LoadTexture("textures/deathstar.png");
 	
 }
 
