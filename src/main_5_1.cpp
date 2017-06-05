@@ -143,9 +143,9 @@ int main(int argc, char ** argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(200, 200);
-	glutInitWindowSize(600, 600);
-	glutCreateWindow("OpenGL Pierwszy Program");
+	glutInitWindowPosition(0, 0);
+	glutInitWindowSize(1200, 800);
+	glutCreateWindow("Solar System. Mikolaj Balcerek s416040, Rafal Piotrowski");
 	glewInit();
 
 	init();
