@@ -41,10 +41,12 @@ glm::mat4 cameraMatrix, perspectiveMatrix;
 
 glm::vec3 lightDir = glm::normalize(glm::vec3(1.0f, -0.9f, -1.0f));
 
+float angleSpeed = 0.1f;
+float moveSpeed = 0.1f;
+
 void keyboard(unsigned char key, int x, int y)
 {
-	float angleSpeed = 0.1f;
-	float moveSpeed = 0.1f;
+
 	switch(key)
 	{
 	case 'z': cameraAngle -= angleSpeed; break;
@@ -53,6 +55,8 @@ void keyboard(unsigned char key, int x, int y)
 	case 's': cameraPos -= cameraDir * moveSpeed; break;
 	case 'd': cameraPos += glm::cross(cameraDir, glm::vec3(0,1,0)) * moveSpeed; break;
 	case 'a': cameraPos -= glm::cross(cameraDir, glm::vec3(0,1,0)) * moveSpeed; break;
+	case 't': moveSpeed = 0.5f; break;
+	case 'y': moveSpeed = 0.1f; break;
 	}
 }
 
