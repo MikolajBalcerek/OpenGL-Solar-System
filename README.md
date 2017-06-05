@@ -19,9 +19,9 @@ Wybrać jakiś dodatkowy efekt graficzny, np.:
 • Własne pomysły…
   
 #TODO:  
-*Większy ekran  - DONE, Mikołaj
-*Czarne albo oteksturowane gwiazdami tło - Czarne tło, Done Mikołaj 
-*Oteksturować STATEK - wszystkie muszą być oteksturowane MUST  - Done Mikołaj
+*Większy ekran  - DONE, Mikołaj  
+*Czarne albo oteksturowane gwiazdami tło - Czarne tło, Done Mikołaj   
+*Oteksturować STATEK - wszystkie muszą być oteksturowane MUST  - Done Mikołaj  
 *Dodać SŁOŃCE jako duży obiekt okrągły z teksturą słońca  
 *Merkury - mała planeta po słońcu  
 *Tekstury Merkury  
