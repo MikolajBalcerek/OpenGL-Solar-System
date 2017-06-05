@@ -17,25 +17,26 @@ Wybrać jakiś dodatkowy efekt graficzny, np.:
 • Kolizja obiektów jest obsługiwana
 • Ciekawa scena, np. lot przez asteroidy
 • Własne pomysły…
+  
+#TODO:  
+*Większy ekran  
+*Czarne albo oteksturowane gwiazdami tło  
+*Oteksturować STATEK - wszystkie muszą być oteksturowane MUST  
+*Dodać SŁOŃCE jako duży obiekt okrągły z teksturą słońca  
+*Merkury - mała planeta po słońcu  
+*Tekstury Merkury  
+*Wenus - średnia planeta jak Ziemia po Merkurym  
+*Tekstury Wenus  
+*Ziemia - jak Wenus po Wenus (inna tekstura)  
+  
+*Obroty planet wokół własnej osi  
+*Obroty planet wokół słońca  
+*Pas asteroidy (modele inne małych kamyczków?)/jako dodatkowy must efekt  
 
-#TODO:
-*Większy ekran
-*Czarne albo oteksturowane gwiazdami tło
-*Oteksturować STATEK - wszystkie muszą być oteksturowane MUST
-*Dodać SŁOŃCE jako duży obiekt okrągły z teksturą słońca
-*Merkury - mała planeta po słońcu
-*Tekstury Merkury
-*Wenus - średnia planeta jak Ziemia po Merkurym
-*Tekstury Wenus
-*Ziemia - jak Wenus po Wenus (inna tekstura)
-
-*Obroty planet wokół własnej osi
-*Obroty planet wokół słońca
-*Pas asteroidy (modele inne małych kamyczków?)/jako dodatkowy must efekt
-
-* Napisać dokumentacje która opisuj program (około 30 wierszy) MUST
-
-#BAJERY
-*Dodać SŁOŃCE jako źródło światła
+* Napisać dokumentacje która opisuj program (około 30 wierszy) MUST  
+    
+#BAJERY    
+*Dodać SŁOŃCE jako źródło światła  
 
 
+ 
