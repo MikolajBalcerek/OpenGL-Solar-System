@@ -12,6 +12,6 @@ void main()
 	vec3 lightDir2 = normalize(Position - vec3(0,0,0));
 	
 	vec3 normal = normalize(interpNormal);
-	float diffuse = max(dot(normal, -lightDir2*10.0), 0.0);
+	float diffuse = max(dot(normal, -lightDir2), 0.0);
 	gl_FragColor = vec4(objectColor * diffuse, 1.0);
 }

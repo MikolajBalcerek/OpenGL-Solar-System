@@ -12,6 +12,8 @@
 
 GLuint programColor;
 GLuint programTexture;
+GLuint sunTexture;
+GLuint sunColor;
 
 GLuint GLOBAL_VARIABLE;
 GLuint SHIP_TEXTURE;
@@ -27,6 +29,8 @@ GLuint NEPTUN;
 GLuint STONE;
 GLuint DEATHSTAR;
 GLuint SPACE;
+
+
 
 Core::Shader_Loader shaderLoader;
 
@@ -78,8 +82,18 @@ void drawObjectColor(obj::Model * model, glm::mat4 modelMatrix, glm::vec3 color)
 
 	glUniform3f(glGetUniformLocation(program, "objectColor"), color.x, color.y, color.z);
 	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
-
+	/*
+	glm::mat4 rotation;
+	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
+	rotation[0][0] = cos(time);
+	rotation[2][0] = sin(time);
+	rotation[0][2] = -sin(time);
+	rotation[2][2] = cos(time);
+	
+	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix * rotation;
+	*/
 	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
+
 	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
 	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
 
@@ -96,17 +110,39 @@ void drawObjectTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint texture
 	Core::SetActiveTexture(textureID, "sampler2dtype", 1, 0);
 	/*glUniform3f(glGetUniformLocation(program, "objectColor"), textureColor.x, textureColor.y, textureColor.z); */
 	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
-
+	
+	
 	glm::mat4 rotation;
-
+	/*
 	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
 	rotation[0][0] = cos(time);
-	rotation[1][0] = -sin(time);
-	rotation[0][1] = sin(time);
-	rotation[1][1] = cos(time);
+	rotation[2][0] = sin(time);
+	rotation[0][2] = -sin(time);
+	rotation[2][2] = cos(time);
+	*/
+	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
 	
+
+//	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix ;
 	
-	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix * rotation;
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+
+	Core::DrawModel(model);
+
+	glUseProgram(0);
+}
+
+void drawObjectTextureShip(obj::Model * model, glm::mat4 modelMatrix, GLuint textureID)
+{
+	GLuint program = programTexture;
+
+	glUseProgram(program);
+	Core::SetActiveTexture(textureID, "sampler2dtype", 1, 0);
+	/*glUniform3f(glGetUniformLocation(program, "objectColor"), textureColor.x, textureColor.y, textureColor.z); */
+	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
+
+	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
 	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
 	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
 
@@ -117,7 +153,7 @@ void drawObjectTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint texture
 
 void drawObjectTextureSun(obj::Model * model, glm::mat4 modelMatrix, GLuint textureID)
 {
-	GLuint program = programTexture;
+	GLuint program = sunTexture;
 
 	glUseProgram(program);
 	Core::SetActiveTexture(textureID, "sampler2dtype", 1, 0);
@@ -155,22 +191,31 @@ void renderScene()
 	// Macierz statku "przyczepia" go do kamery. Warto przeanalizowac te linijke i zrozumiec jak to dziala.
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
 
+	glm::mat4 rotation;
+	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
+	rotation[0][0] = cos(time);
+	rotation[2][0] = sin(time);
+	rotation[0][2] = -sin(time);
+	rotation[2][2] = cos(time);
+	glm::mat4 MercuryModelMatrix = glm::translate(glm::vec3(0, 0, 4))*rotation*glm::scale(glm::vec3(0.5f));
 
-	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 1, 0)) * glm::scale(glm::vec3(2.8f)), THE_SUN);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,4))* glm::scale(glm::vec3(0.5f)), MERKURY);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,7))* glm::scale(glm::vec3(0.8f)), WENUS);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 10))* glm::scale(glm::vec3(1.0f)), ZIEMIA);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 14))* glm::scale(glm::vec3(0.7f)), MARS);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 18))* glm::scale(glm::vec3(2.0f)), JOWISZ);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 22))* glm::scale(glm::vec3(1.8f)), SATURN);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 26))* glm::scale(glm::vec3(1.6f)), URAN);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* glm::scale(glm::vec3(1.4f)), NEPTUN);
-	drawObjectColor(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* glm::scale(glm::vec3(1.4f)), glm::vec3(0.9f, 0.2f, 0.3f));
+	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(2.8f)), THE_SUN);
+	drawObjectTexture(&sphereModel,	MercuryModelMatrix , MERKURY);
+	//drawObjectColor(&sphereModel, glm::translate(glm::vec3(0, 0, 4))* glm::scale(glm::vec3(0.5f)), glm::vec3(20.0f));
+	
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,7))* rotation*glm::scale(glm::vec3(0.8f)), WENUS);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 10))* rotation*glm::scale(glm::vec3(1.0f)), ZIEMIA);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 14))* rotation*glm::scale(glm::vec3(0.7f)), MARS);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 18))* rotation*glm::scale(glm::vec3(2.0f)), JOWISZ);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 22))*rotation* glm::scale(glm::vec3(1.8f)), SATURN);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 26))* rotation*glm::scale(glm::vec3(1.6f)), URAN);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* rotation*glm::scale(glm::vec3(1.4f)), NEPTUN);
+	//drawObjectColor(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* rotation*glm::scale(glm::vec3(1.4f)), glm::vec3(0.9f, 0.2f, 0.3f));
 	//drawObjectTexture(&square, glm::translate(glm::vec3(0, 2, 5))* glm::scale(glm::vec3(0.5f)), STONE);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 5, 5))* glm::scale(glm::vec3(0.5f)), DEATHSTAR);
 
 	//Outer space
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))* glm::scale(glm::vec3(20.0f)), SPACE);
+	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 0, 0))* glm::scale(glm::vec3(50.0f)), SPACE);
 
 
 	
@@ -178,7 +223,7 @@ void renderScene()
 
 
 	//Tektura statku - Mikolaj
-	drawObjectTextureSun(&shipModel, shipModelMatrix, SHIP_TEXTURE);
+	drawObjectTextureShip(&shipModel, shipModelMatrix, SHIP_TEXTURE);
 	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(20.0f));
 
 
@@ -190,6 +235,8 @@ void init()
 	glEnable(GL_DEPTH_TEST);
 	programColor = shaderLoader.CreateProgram("shaders/shader_color.vert", "shaders/shader_color.frag");
 	programTexture = shaderLoader.CreateProgram("shaders/shader_tex.vert", "shaders/shader_tex.frag");
+	sunTexture = shaderLoader.CreateProgram("shaders/shader_tex_sun.vert", "shaders/shader_tex_sun.frag");
+	sunColor = shaderLoader.CreateProgram("shaders/shader_color_sun.vert", "shaders/shader_color_sun.frag");
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
 	shipModel = obj::loadModelFromFile("models/spaceship.obj");
 	square = obj::loadModelFromFile("models/square.obj");
@@ -208,6 +255,8 @@ void init()
 	NEPTUN = Core::LoadTexture("textures/neptun.png");
 	STONE = Core::LoadTexture("textures/minecraft.png");
 	DEATHSTAR = Core::LoadTexture("textures/deathstar.png");
+	SPACE = Core::LoadTexture("textures/SPACE.PNG");
+
 
 }
 
@@ -215,6 +264,8 @@ void shutdown()
 {
 	shaderLoader.DeleteProgram(programColor);
 	shaderLoader.DeleteProgram(programTexture);
+	shaderLoader.DeleteProgram(sunTexture);
+	shaderLoader.DeleteProgram(sunColor);
 }
 
 void idle()
@@ -244,3 +295,4 @@ int main(int argc, char ** argv)
 
 	return 0;
 }
+

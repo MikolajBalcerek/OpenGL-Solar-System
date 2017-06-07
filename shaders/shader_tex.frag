@@ -15,7 +15,7 @@ void main()
 
 
 	vec3 normal = normalize(interpNormal);
-	float diffuse = max(dot(normal, -lightDir2*10.0), 0.0);
+	float diffuse = max(dot(normal, -lightDir2), 0.0);
 	vec4 textureColor = texture2D(sampler2dtype, vertexTexCoord1);
 	gl_FragColor = vec4(textureColor.xyz * diffuse, 1.0);
 }
