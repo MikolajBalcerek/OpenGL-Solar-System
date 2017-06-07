@@ -1,4 +1,20 @@
 ﻿  main_5_1.cpp
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(216): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(217): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(218): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(219): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(220): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(221): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(222): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(223): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(224): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(225): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(226): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(227): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(228): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(229): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(230): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+j:\desktop\opengl-solar-system\opengl-solar-system\src\main_5_1.cpp(231): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 Camera.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
   grk-cw5.vcxproj -> j:\Desktop\OpenGL-Solar-System\OpenGL-Solar-System\Debug\grk-cw5.exe
   grk-cw5.vcxproj -> j:\Desktop\OpenGL-Solar-System\OpenGL-Solar-System\Debug\grk-cw5.pdb (Full PDB)

@@ -192,30 +192,60 @@ void renderScene()
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
 
 	glm::mat4 rotation;
+	glm::mat4 translationMerkury;
+	glm::mat4 translationWenus;
+	glm::mat4 translationZiemia;
+	glm::mat4 translationMars;
+	glm::mat4 translationJowisz;
+	glm::mat4 translationSaturn;
+	glm::mat4 translationUran;
+	glm::mat4 translationNeptun;
+
 	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
 	rotation[0][0] = cos(time);
 	rotation[2][0] = sin(time);
 	rotation[0][2] = -sin(time);
 	rotation[2][2] = cos(time);
-	glm::mat4 MercuryModelMatrix = glm::translate(glm::vec3(0, 0, 4))*rotation*glm::scale(glm::vec3(0.5f));
+
+	//stala obrotu 0.00003125
+	/*
+	translationMerkury[3][0] = 10 * sin(1 / (sqrt(pow(10, 3)*c) * time));
+	translationMerkury[3][2] = 10 * cos(1 / (sqrt(pow(10, 3)*c) * time));
+	*/
+	double c = 0.00003125;
+	translationMerkury[3][0] = 10 * sin(0.9 * time);
+	translationMerkury[3][2] = 10 * cos(0.9 * time);
+	translationWenus[3][0] = 15 * sin(0.7 * time);
+	translationWenus[3][2] = 15 * cos(0.7 * time);
+	translationZiemia[3][0] = 20 *sin(0.5 * time);
+	translationZiemia[3][2] = 20 *cos(0.5 * time);
+	translationMars[3][0] = 25 * sin(0.3 * time);
+	translationMars[3][2] = 25 * cos(0.3 * time);
+	translationJowisz[3][0] = 30 * sin(0.1 * time);
+	translationJowisz[3][2] = 30 * cos(0.1 * time);
+	translationSaturn[3][0] = 35 * sin(0.05 * time);
+	translationSaturn[3][2] = 35 * cos(0.05 * time);
+	translationUran[3][0] = 40 * sin(0.02 * time);
+	translationUran[3][2] = 40 * cos(0.02 * time);
+	translationNeptun[3][0] = 45 * sin(0.005 * time);
+	translationNeptun[3][2] = 45 * cos(0.005 * time);
 
 	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(2.8f)), THE_SUN);
-	drawObjectTexture(&sphereModel,	MercuryModelMatrix , MERKURY);
-	//drawObjectColor(&sphereModel, glm::translate(glm::vec3(0, 0, 4))* glm::scale(glm::vec3(0.5f)), glm::vec3(20.0f));
-	
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,7))* rotation*glm::scale(glm::vec3(0.8f)), WENUS);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 10))* rotation*glm::scale(glm::vec3(1.0f)), ZIEMIA);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 14))* rotation*glm::scale(glm::vec3(0.7f)), MARS);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 18))* rotation*glm::scale(glm::vec3(2.0f)), JOWISZ);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 22))*rotation* glm::scale(glm::vec3(1.8f)), SATURN);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 26))* rotation*glm::scale(glm::vec3(1.6f)), URAN);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* rotation*glm::scale(glm::vec3(1.4f)), NEPTUN);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationMerkury*rotation*glm::scale(glm::vec3(0.5f)), MERKURY);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,0))*translationWenus* rotation*glm::scale(glm::vec3(0.8f)), WENUS);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationZiemia* rotation*glm::scale(glm::vec3(1.0f)), ZIEMIA);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationMars* rotation*glm::scale(glm::vec3(0.7f)), MARS);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationJowisz* rotation*glm::scale(glm::vec3(2.0f)), JOWISZ);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationSaturn* rotation* glm::scale(glm::vec3(1.8f)), SATURN);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationUran* rotation*glm::scale(glm::vec3(1.6f)), URAN);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationNeptun* rotation*glm::scale(glm::vec3(1.4f)), NEPTUN);
+
 	//drawObjectColor(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* rotation*glm::scale(glm::vec3(1.4f)), glm::vec3(0.9f, 0.2f, 0.3f));
 	//drawObjectTexture(&square, glm::translate(glm::vec3(0, 2, 5))* glm::scale(glm::vec3(0.5f)), STONE);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 5, 5))* glm::scale(glm::vec3(0.5f)), DEATHSTAR);
 
 	//Outer space
-	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 0, 0))* glm::scale(glm::vec3(50.0f)), SPACE);
+	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 0, 0))* glm::scale(glm::vec3(70.0f)), SPACE);
 
 
 	
