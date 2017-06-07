@@ -26,6 +26,7 @@ GLuint URAN;
 GLuint NEPTUN;
 GLuint STONE;
 GLuint DEATHSTAR;
+GLuint SPACE;
 
 Core::Shader_Loader shaderLoader;
 
@@ -140,6 +141,9 @@ void renderScene()
 	//drawObjectTexture(&square, glm::translate(glm::vec3(0, 2, 5))* glm::scale(glm::vec3(0.5f)), STONE);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 5, 5))* glm::scale(glm::vec3(0.5f)), DEATHSTAR);
 
+	//Outer space
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))* glm::scale(glm::vec3(50.0f)), SPACE);
+
 
 	
 	
@@ -174,6 +178,7 @@ void init()
 	NEPTUN = Core::LoadTexture("textures/neptun.png");
 	STONE = Core::LoadTexture("textures/minecraft.png");
 	DEATHSTAR = Core::LoadTexture("textures/deathstar.png");
+	SPACE = Core::LoadTexture("textures/SPACE.PNG");
 	
 }
 
