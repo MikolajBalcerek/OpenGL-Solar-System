@@ -97,6 +97,33 @@ void drawObjectTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint texture
 	/*glUniform3f(glGetUniformLocation(program, "objectColor"), textureColor.x, textureColor.y, textureColor.z); */
 	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
 
+	glm::mat4 rotation;
+
+	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
+	rotation[0][0] = cos(time);
+	rotation[1][0] = -sin(time);
+	rotation[0][1] = sin(time);
+	rotation[1][1] = cos(time);
+	
+	
+	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix * rotation;
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+
+	Core::DrawModel(model);
+
+	glUseProgram(0);
+}
+
+void drawObjectTextureSun(obj::Model * model, glm::mat4 modelMatrix, GLuint textureID)
+{
+	GLuint program = programTexture;
+
+	glUseProgram(program);
+	Core::SetActiveTexture(textureID, "sampler2dtype", 1, 0);
+	/*glUniform3f(glGetUniformLocation(program, "objectColor"), textureColor.x, textureColor.y, textureColor.z); */
+	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
+
 	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
 	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
 	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
@@ -129,7 +156,7 @@ void renderScene()
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
 
 
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(2.8f)), THE_SUN);
+	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 1, 0)) * glm::scale(glm::vec3(2.8f)), THE_SUN);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,4))* glm::scale(glm::vec3(0.5f)), MERKURY);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,7))* glm::scale(glm::vec3(0.8f)), WENUS);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 10))* glm::scale(glm::vec3(1.0f)), ZIEMIA);
@@ -138,6 +165,7 @@ void renderScene()
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 22))* glm::scale(glm::vec3(1.8f)), SATURN);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 26))* glm::scale(glm::vec3(1.6f)), URAN);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* glm::scale(glm::vec3(1.4f)), NEPTUN);
+	drawObjectColor(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* glm::scale(glm::vec3(1.4f)), glm::vec3(0.9f, 0.2f, 0.3f));
 	//drawObjectTexture(&square, glm::translate(glm::vec3(0, 2, 5))* glm::scale(glm::vec3(0.5f)), STONE);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 5, 5))* glm::scale(glm::vec3(0.5f)), DEATHSTAR);
 
@@ -150,8 +178,8 @@ void renderScene()
 
 
 	//Tektura statku - Mikolaj
-	drawObjectTexture(&shipModel, shipModelMatrix, SHIP_TEXTURE);
-	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
+	drawObjectTextureSun(&shipModel, shipModelMatrix, SHIP_TEXTURE);
+	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(20.0f));
 
 
 	glutSwapBuffers();
@@ -167,7 +195,10 @@ void init()
 	square = obj::loadModelFromFile("models/square.obj");
 	GLOBAL_VARIABLE = Core::LoadTexture("textures/earth.png");
 	THE_SUN = Core::LoadTexture("textures/sun.png");
+
+	
 	SHIP_TEXTURE = Core::LoadTexture("textures/spaceshiptexture.png");
+	/*
 	MERKURY = Core::LoadTexture("textures/merkury.png");
 	WENUS = Core::LoadTexture("textures/wenus.png");
 	ZIEMIA = Core::LoadTexture("textures/earth.png");
@@ -178,8 +209,12 @@ void init()
 	NEPTUN = Core::LoadTexture("textures/neptun.png");
 	STONE = Core::LoadTexture("textures/minecraft.png");
 	DEATHSTAR = Core::LoadTexture("textures/deathstar.png");
+<<<<<<< HEAD
+	*/
+=======
 	SPACE = Core::LoadTexture("textures/SPACE.PNG");
 	
+>>>>>>> refs/remotes/origin/master
 }
 
 void shutdown()
