@@ -170,7 +170,7 @@ void renderScene()
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 5, 5))* glm::scale(glm::vec3(0.5f)), DEATHSTAR);
 
 	//Outer space
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))* glm::scale(glm::vec3(50.0f)), SPACE);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(7, 7, 7))* glm::scale(glm::vec3(20.0f)), SPACE);
 
 
 	
@@ -196,9 +196,8 @@ void init()
 	GLOBAL_VARIABLE = Core::LoadTexture("textures/earth.png");
 	THE_SUN = Core::LoadTexture("textures/sun.png");
 
-	
+
 	SHIP_TEXTURE = Core::LoadTexture("textures/spaceshiptexture.png");
-	/*
 	MERKURY = Core::LoadTexture("textures/merkury.png");
 	WENUS = Core::LoadTexture("textures/wenus.png");
 	ZIEMIA = Core::LoadTexture("textures/earth.png");
@@ -209,12 +208,8 @@ void init()
 	NEPTUN = Core::LoadTexture("textures/neptun.png");
 	STONE = Core::LoadTexture("textures/minecraft.png");
 	DEATHSTAR = Core::LoadTexture("textures/deathstar.png");
-<<<<<<< HEAD
-	*/
-=======
 	SPACE = Core::LoadTexture("textures/SPACE.PNG");
-	
->>>>>>> refs/remotes/origin/master
+
 }
 
 void shutdown()
