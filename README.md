@@ -1,5 +1,6 @@
 # OpenGL-Solar-System
 
+Link do szczegółowych wymagań: https://docs.google.com/document/d/1mKzDltdg2EMLVJQcnu4zgKQBtTep7SUKCytHB9KLQ4M/edit?usp=sharing
 • Napisać symulacje lotu kosmicznego w OpenGLu:
 • Korzystając tylko z bibliotek które na ćwiczeniach zostały omówione
 • Interaktywna symulacja
