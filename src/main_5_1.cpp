@@ -266,7 +266,7 @@ void init()
 	programColor = shaderLoader.CreateProgram("shaders/shader_color.vert", "shaders/shader_color.frag");
 	programTexture = shaderLoader.CreateProgram("shaders/shader_tex.vert", "shaders/shader_tex.frag");
 	sunTexture = shaderLoader.CreateProgram("shaders/shader_tex_sun.vert", "shaders/shader_tex_sun.frag");
-	sunColor = shaderLoader.CreateProgram("shaders/shader_color_sun.vert", "shaders/shader_color_sun.frag");
+	//sunColor = shaderLoader.CreateProgram("shaders/shader_color_sun.vert", "shaders/shader_color_sun.frag");
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
 	shipModel = obj::loadModelFromFile("models/spaceship.obj");
 	square = obj::loadModelFromFile("models/square.obj");
@@ -295,7 +295,7 @@ void shutdown()
 	shaderLoader.DeleteProgram(programColor);
 	shaderLoader.DeleteProgram(programTexture);
 	shaderLoader.DeleteProgram(sunTexture);
-	shaderLoader.DeleteProgram(sunColor);
+	//shaderLoader.DeleteProgram(sunColor);
 }
 
 void idle()
