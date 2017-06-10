@@ -27,7 +27,7 @@ GLuint SATURN;
 GLuint URAN;
 GLuint NEPTUN;
 GLuint STONE;
-GLuint DEATHSTAR;
+GLuint MOON;
 GLuint SPACE;
 
 
@@ -200,6 +200,7 @@ void renderScene()
 	glm::mat4 translationSaturn;
 	glm::mat4 translationUran;
 	glm::mat4 translationNeptun;
+	glm::mat4 translationKsiezyc;
 
 	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
 	rotation[0][0] = cos(time);
@@ -229,11 +230,18 @@ void renderScene()
 	translationUran[3][2] = 40 * cos(0.02 * time);
 	translationNeptun[3][0] = 45 * sin(0.005 * time);
 	translationNeptun[3][2] = 45 * cos(0.005 * time);
+	translationKsiezyc[3][0] = 4 * sin(0.1 * time);
+	translationKsiezyc[3][2] = 4 * cos(0.1 * time);
 
 	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(2.8f)), THE_SUN);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationMerkury*rotation*glm::scale(glm::vec3(0.5f)), MERKURY);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,0))*translationWenus* rotation*glm::scale(glm::vec3(0.8f)), WENUS);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationZiemia* rotation*glm::scale(glm::vec3(1.0f)), ZIEMIA);
+
+	//Ziemia i ksiezyc
+	glm::mat4 finalmatrixZiemia = glm::translate(glm::vec3(0, 0, 0))*translationZiemia* rotation*glm::scale(glm::vec3(1.0f));
+	drawObjectTexture(&sphereModel, finalmatrixZiemia, ZIEMIA);
+	drawObjectTexture(&sphereModel, (finalmatrixZiemia * translationKsiezyc * glm::scale(glm::vec3(0.4f))), MOON);
+
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationMars* rotation*glm::scale(glm::vec3(0.7f)), MARS);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationJowisz* rotation*glm::scale(glm::vec3(2.0f)), JOWISZ);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationSaturn* rotation* glm::scale(glm::vec3(1.8f)), SATURN);
@@ -242,7 +250,6 @@ void renderScene()
 
 	//drawObjectColor(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* rotation*glm::scale(glm::vec3(1.4f)), glm::vec3(0.9f, 0.2f, 0.3f));
 	//drawObjectTexture(&square, glm::translate(glm::vec3(0, 2, 5))* glm::scale(glm::vec3(0.5f)), STONE);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 5, 5))* glm::scale(glm::vec3(0.5f)), DEATHSTAR);
 
 	//Outer space
 	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 0, 0))* glm::scale(glm::vec3(70.0f)), SPACE);
@@ -284,7 +291,7 @@ void init()
 	URAN = Core::LoadTexture("textures/uran.png");
 	NEPTUN = Core::LoadTexture("textures/neptun.png");
 	STONE = Core::LoadTexture("textures/minecraft.png");
-	DEATHSTAR = Core::LoadTexture("textures/deathstar.png");
+	MOON = Core::LoadTexture("textures/deathstar.png");
 	SPACE = Core::LoadTexture("textures/SPACE.PNG");
 
 
