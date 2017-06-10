@@ -202,18 +202,19 @@ void renderScene()
 	glm::mat4 translationNeptun;
 	glm::mat4 translationKsiezyc;
 
+
+	//Rotation odpowiada za rotacjê dooko³a w³asnej osi planet
 	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
 	rotation[0][0] = cos(time);
 	rotation[2][0] = sin(time);
 	rotation[0][2] = -sin(time);
 	rotation[2][2] = cos(time);
 
-	//stala obrotu 0.00003125
+	//translation odpowiada za rotacjê wobec wybranego punktu (0,0,0) s³oñce
 	/*
 	translationMerkury[3][0] = 10 * sin(1 / (sqrt(pow(10, 3)*c) * time));
 	translationMerkury[3][2] = 10 * cos(1 / (sqrt(pow(10, 3)*c) * time));
 	*/
-	double c = 0.00003125;
 	translationMerkury[3][0] = 10 * sin(0.9 * time);
 	translationMerkury[3][2] = 10 * cos(0.9 * time);
 	translationWenus[3][0] = 15 * sin(0.7 * time);
@@ -233,33 +234,37 @@ void renderScene()
 	translationKsiezyc[3][0] = 4 * sin(0.1 * time);
 	translationKsiezyc[3][2] = 4 * cos(0.1 * time);
 
+	//Sun korzysta ze specjalnej funkcji drawObjectTextureSun, gdzie ignorowane jest oœwietlenie (ca³y obiekt jest oœwietlony)
 	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(2.8f)), THE_SUN);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationMerkury*rotation*glm::scale(glm::vec3(0.5f)), MERKURY);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,0))*translationWenus* rotation*glm::scale(glm::vec3(0.8f)), WENUS);
 
-	//Ziemia i ksiezyc
+	//Reszta planet jest prawid³owo oœwietlana
+	//Merkury
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationMerkury*rotation*glm::scale(glm::vec3(0.5f)), MERKURY);
+	//Wenus
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0,0,0))*translationWenus* rotation*glm::scale(glm::vec3(0.8f)), WENUS);
+	//Ziemia
 	glm::mat4 finalmatrixZiemia = glm::translate(glm::vec3(0, 0, 0))*translationZiemia* rotation*glm::scale(glm::vec3(1.0f));
 	drawObjectTexture(&sphereModel, finalmatrixZiemia, ZIEMIA);
+	//Ksiezyc dodatkowo kreci sie dookola Ziemi
 	drawObjectTexture(&sphereModel, (finalmatrixZiemia * translationKsiezyc * glm::scale(glm::vec3(0.4f))), MOON);
-
+	//Mars
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationMars* rotation*glm::scale(glm::vec3(0.7f)), MARS);
+	//Jowisz
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationJowisz* rotation*glm::scale(glm::vec3(2.0f)), JOWISZ);
+	//Saturn
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationSaturn* rotation* glm::scale(glm::vec3(1.8f)), SATURN);
+	//Uran
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationUran* rotation*glm::scale(glm::vec3(1.6f)), URAN);
+	//Neptun
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0))*translationNeptun* rotation*glm::scale(glm::vec3(1.4f)), NEPTUN);
 
 	//drawObjectColor(&sphereModel, glm::translate(glm::vec3(0, 0, 30))* rotation*glm::scale(glm::vec3(1.4f)), glm::vec3(0.9f, 0.2f, 0.3f));
 	//drawObjectTexture(&square, glm::translate(glm::vec3(0, 2, 5))* glm::scale(glm::vec3(0.5f)), STONE);
 
-	//Outer space
+	//Outer space - olbrzymia kula na zewnatrz modelu ukladu sloneczego
 	drawObjectTextureSun(&sphereModel, glm::translate(glm::vec3(0, 0, 0))* glm::scale(glm::vec3(70.0f)), SPACE);
 
-
-	
-	
-
-
-	//Tektura statku - Mikolaj
+	//Statek jest dodatkowo oteksturowany
 	drawObjectTextureShip(&shipModel, shipModelMatrix, SHIP_TEXTURE);
 	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(20.0f));
 
