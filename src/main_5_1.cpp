@@ -61,9 +61,13 @@ void keyboard(unsigned char key, int x, int y)
 	case 'd': cameraPos += glm::cross(cameraDir, glm::vec3(0,1,0)) * moveSpeed; break;
 	case 'a': cameraPos -= glm::cross(cameraDir, glm::vec3(0,1,0)) * moveSpeed; break;
 	//Tryb turbo
-	case 't': moveSpeed = 0.5f; break; //(t)urbo
+	case 't': moveSpeed = 0.5f;
+		angleSpeed = 0.5f;
+		break; //(t)urbo
 	//Tryb normalny
-	case 'y': moveSpeed = 0.1f; break;
+	case 'y': moveSpeed = 0.1f;
+		angleSpeed = 0.5f;
+		break;
 	//Strzelanie
 	case '32': moveSpeed = 0.0f; break; //SPACEBAR
 	}
