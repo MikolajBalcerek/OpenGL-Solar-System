@@ -4,6 +4,7 @@
 #include "ext.hpp"
 #include <iostream>
 #include <cmath>
+#include <list>
 
 #include "Shader_Loader.h"
 #include "Render_Utils.h"
@@ -30,6 +31,9 @@ GLuint STONE;
 GLuint MOON;
 GLuint SPACE;
 
+//lista pozycji ognia statku
+//camerapos w momencie wystrzelenia, cameradir, time w momencie
+std::list<std::tuple<glm::vec3, glm::vec3, float>> gunfire = {};
 
 
 Core::Shader_Loader shaderLoader;
@@ -38,10 +42,11 @@ obj::Model shipModel;
 obj::Model sphereModel;
 obj::Model square;
 
-float cameraAngle = 0;
+float timefour = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
+
 glm::vec3 cameraPos = glm::vec3(-5, 0, 0);
 glm::vec3 cameraDir;
-
+float cameraAngle = 0;
 glm::mat4 cameraMatrix, perspectiveMatrix;
 
 glm::vec3 lightDir = glm::normalize(glm::vec3(1.0f, -0.9f, -1.0f));
@@ -49,29 +54,52 @@ glm::vec3 lightDir = glm::normalize(glm::vec3(1.0f, -0.9f, -1.0f));
 float angleSpeed = 0.1f;
 float moveSpeed = 0.1f;
 
-void keyboard(unsigned char key, int x, int y)
+void drawObjectTextureSun(obj::Model * model, glm::mat4 modelMatrix, GLuint textureID)
 {
+	GLuint program = sunTexture;
 
-	switch(key)
-	{
-	case 'z': cameraAngle -= angleSpeed; break;
-	case 'x': cameraAngle += angleSpeed; break;
-	case 'w': cameraPos += cameraDir * moveSpeed; break;
-	case 's': cameraPos -= cameraDir * moveSpeed; break;
-	case 'd': cameraPos += glm::cross(cameraDir, glm::vec3(0,1,0)) * moveSpeed; break;
-	case 'a': cameraPos -= glm::cross(cameraDir, glm::vec3(0,1,0)) * moveSpeed; break;
-	//Tryb turbo
-	case 't': moveSpeed = 0.5f;
-		angleSpeed = 0.5f;
-		break; //(t)urbo
-	//Tryb normalny
-	case 'y': moveSpeed = 0.1f;
-		angleSpeed = 0.5f;
-		break;
-	//Strzelanie
-	case '32': moveSpeed = 0.0f; break; //SPACEBAR
-	}
+	glUseProgram(program);
+	Core::SetActiveTexture(textureID, "sampler2dtype", 1, 0);
+	/*glUniform3f(glGetUniformLocation(program, "objectColor"), textureColor.x, textureColor.y, textureColor.z); */
+	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
+
+	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+
+	Core::DrawModel(model);
+
+	glUseProgram(0);
 }
+
+void drawObjectColorGUNFIRE(obj::Model * model, glm::mat4 modelMatrix, glm::vec3 color)
+{
+	GLuint program = programColor;
+
+	glUseProgram(program);
+
+	glUniform3f(glGetUniformLocation(program, "objectColor"), color.x, color.y, color.z);
+	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
+	/*
+	glm::mat4 rotation;
+	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
+	rotation[0][0] = cos(time);
+	rotation[2][0] = sin(time);
+	rotation[0][2] = -sin(time);
+	rotation[2][2] = cos(time);
+
+	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix * rotation;
+	*/
+	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
+
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+
+	Core::DrawModel(model);
+
+	glUseProgram(0);
+}
+
 
 glm::mat4 createCameraMatrix()
 {
@@ -109,6 +137,7 @@ void drawObjectColor(obj::Model * model, glm::mat4 modelMatrix, glm::vec3 color)
 
 	glUseProgram(0);
 }
+
 
 void drawObjectTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint textureID)
 {
@@ -159,23 +188,9 @@ void drawObjectTextureShip(obj::Model * model, glm::mat4 modelMatrix, GLuint tex
 	glUseProgram(0);
 }
 
-void drawObjectTextureSun(obj::Model * model, glm::mat4 modelMatrix, GLuint textureID)
-{
-	GLuint program = sunTexture;
 
-	glUseProgram(program);
-	Core::SetActiveTexture(textureID, "sampler2dtype", 1, 0);
-	/*glUniform3f(glGetUniformLocation(program, "objectColor"), textureColor.x, textureColor.y, textureColor.z); */
-	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
 
-	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
-	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
-	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
 
-	Core::DrawModel(model);
-
-	glUseProgram(0);
-}
 
 
 void drawObjectProceduralTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint textureID)
@@ -195,6 +210,7 @@ void renderScene()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
 
 	// Macierz statku "przyczepia" go do kamery. Warto przeanalizowac te linijke i zrozumiec jak to dziala.
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
@@ -276,6 +292,16 @@ void renderScene()
 	drawObjectTextureShip(&shipModel, shipModelMatrix, SHIP_TEXTURE);
 	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(20.0f));
 
+	//renderowanie ognia statku
+	timefour = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
+	float moveSpeedGUNFIRE = 0.4f + moveSpeed;
+	//dla ka¿dego pocisku
+	for (std::tuple<glm::vec3,glm::vec3, float> i : gunfire)
+	{
+		//do pozycji pocisku dodaj predkosc pocisku w kierunku camerapos w momencie wystrzelania razy miniony czas
+		glm::vec3 currentposition = std::get<0>(i) + std::get<1>(i) * (time - std::get<2>(i)) * moveSpeedGUNFIRE;
+		drawObjectColorGUNFIRE(&sphereModel, glm::translate(currentposition) * glm::scale(glm::vec3(0.01)), glm::vec3(2.0f, 3.0f, 0.8f));
+	}
 
 	glutSwapBuffers();
 }
@@ -321,6 +347,32 @@ void shutdown()
 void idle()
 {
 	glutPostRedisplay();
+}
+
+void keyboard(unsigned char key, int x, int y)
+{
+
+	switch (key)
+	{
+	case 'z': cameraAngle -= angleSpeed; break;
+	case 'x': cameraAngle += angleSpeed; break;
+	case 'w': cameraPos += cameraDir * moveSpeed; break;
+	case 's': cameraPos -= cameraDir * moveSpeed; break;
+	case 'd': cameraPos += glm::cross(cameraDir, glm::vec3(0, 1, 0)) * moveSpeed; break;
+	case 'a': cameraPos -= glm::cross(cameraDir, glm::vec3(0, 1, 0)) * moveSpeed; break;
+		//Strzelanie
+	case 'f':
+		gunfire.push_back(std::make_tuple(glm::vec3(cameraPos), glm::vec3(cameraDir), float(timefour)));
+		break;
+		//Tryb turbo
+	case 't': moveSpeed = 0.5f;
+		angleSpeed = 0.5f;
+		break; //(t)urbo
+			   //Tryb normalny
+	case 'y': moveSpeed = 0.1f;
+		angleSpeed = 0.5f;
+		break;
+	}
 }
 
 int main(int argc, char ** argv)
