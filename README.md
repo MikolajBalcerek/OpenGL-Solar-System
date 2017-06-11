@@ -1,10 +1,10 @@
 # OpenGL-Solar-System
-Model Układu Słonecznego
-C++ i OpenGL
-Grafika Komputerowa, 2016/2017
-Autorzy: Mikołaj Balcerek, Rafał Piotrowski
+Model Układu Słonecznego  
+C++ i OpenGL  
+Grafika Komputerowa, 2016/2017  
+Autorzy: Mikołaj Balcerek, Rafał Piotrowski  
 
-![gif of the application in action](http://i.imgur.com/f7oGjNh.gif)
+http://i.imgur.com/f7oGjNh.gif 
 
 ## Funkcjonalności i rozdział ról
 
@@ -27,18 +27,18 @@ Autorzy: Mikołaj Balcerek, Rafał Piotrowski
 - F - strzelanie
 - T - tryb turbo (szybsze poruszanie się statkiem)
 
-#### Wymagania, TODO:
-Link do szczegółowych wymagań: https://docs.google.com/document/d/1mKzDltdg2EMLVJQcnu4zgKQBtTep7SUKCytHB9KLQ4M/edit?usp=sharing
-• Przygotować 5 minutową prezentację projektu na ostatnich ćwiczeń -
-przygotować się na kilka pytań
-• Implementacja (50%), opis i prezentacja (50%)
+#### Wymagania, TODO:  
+Link do szczegółowych wymagań: https://docs.google.com/document/d/1mKzDltdg2EMLVJQcnu4zgKQBtTep7SUKCytHB9KLQ4M/edit?usp=sharing  
+• Przygotować 5 minutową prezentację projektu na ostatnich ćwiczeń -  
+przygotować się na kilka pytań  
+• Implementacja (50%), opis i prezentacja (50%)  
 
-Wybrać jakiś dodatkowy efekt graficzny, np.:
-• Normal lub Environment mapping
-• Proceduralne tekstury: np. szum Perlina
-• Statek ma obracającą bron (strzela)
-• Kolizja obiektów jest obsługiwana
-• Ciekawa scena, np. lot przez asteroidy
+Wybrać jakiś dodatkowy efekt graficzny, np.:  
+• Normal lub Environment mapping  
+• Proceduralne tekstury: np. szum Perlina  
+• Statek ma obracającą bron (strzela)  
+• Kolizja obiektów jest obsługiwana  
+• Ciekawa scena, np. lot przez asteroidy  
 
 
  
