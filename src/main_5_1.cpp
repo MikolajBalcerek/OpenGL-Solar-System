@@ -41,12 +41,15 @@ Core::Shader_Loader shaderLoader;
 obj::Model shipModel;
 obj::Model sphereModel;
 obj::Model square;
+obj::Model turret;
+obj::Model bullet;
 
 float timefour = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
 
 glm::vec3 cameraPos = glm::vec3(-5, 0, 0);
 glm::vec3 cameraDir;
 float cameraAngle = 0;
+float gunAngle = 0;
 glm::mat4 cameraMatrix, perspectiveMatrix;
 
 glm::vec3 lightDir = glm::normalize(glm::vec3(1.0f, -0.9f, -1.0f));
@@ -214,6 +217,8 @@ void renderScene()
 
 	// Macierz statku "przyczepia" go do kamery. Warto przeanalizowac te linijke i zrozumiec jak to dziala.
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
+	glm::mat4 turretMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0, -0.25f, 0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0, 1, 0)) * glm::scale(glm::vec3(0.25f));
+
 
 	glm::mat4 rotation;
 	glm::mat4 translationMerkury;
@@ -291,6 +296,9 @@ void renderScene()
 	//Statek jest dodatkowo oteksturowany
 	drawObjectTextureShip(&shipModel, shipModelMatrix, SHIP_TEXTURE);
 	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(20.0f));
+	
+	drawObjectTextureShip(&square, turretMatrix * glm::translate(glm::vec3(0.0f, 0.2f, 0.4f))* glm::scale(glm::vec3(0.2f)), SHIP_TEXTURE);
+	//drawObjectColor(&square, turretMatrix * glm::translate(glm::vec3(0.0f, 0.2f, 0.4f))* glm::scale(glm::vec3(0.2f)), glm::vec3(20.0f));
 
 	//renderowanie ognia statku
 	timefour = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
@@ -300,7 +308,10 @@ void renderScene()
 	{
 		//do pozycji pocisku dodaj predkosc pocisku w kierunku camerapos w momencie wystrzelania razy miniony czas
 		glm::vec3 currentposition = std::get<0>(i) + std::get<1>(i) * (time - std::get<2>(i)) * moveSpeedGUNFIRE;
-		drawObjectColorGUNFIRE(&sphereModel, glm::translate(currentposition) * glm::scale(glm::vec3(0.01)), glm::vec3(2.0f, 3.0f, 0.8f));
+		drawObjectTexture(&square, glm::translate(currentposition) * glm::scale(glm::vec3(0.01)), STONE);
+		
+		//drawObjectColorGUNFIRE(&bullet, glm::translate(currentposition) * glm::scale(glm::vec3(0.1)), glm::vec3(2.0f, 3.0f, 0.8f));
+		
 	}
 
 	glutSwapBuffers();
@@ -315,7 +326,9 @@ void init()
 	//sunColor = shaderLoader.CreateProgram("shaders/shader_color_sun.vert", "shaders/shader_color_sun.frag");
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
 	shipModel = obj::loadModelFromFile("models/spaceship.obj");
-	square = obj::loadModelFromFile("models/square.obj");
+	square = obj::loadModelFromFile("models/cube.obj");
+	//square = obj::loadModelFromFile("models/turret3.obj");
+	bullet= obj::loadModelFromFile("models/bullet.obj");
 	GLOBAL_VARIABLE = Core::LoadTexture("textures/earth.png");
 	THE_SUN = Core::LoadTexture("textures/sun.png");
 
@@ -362,7 +375,7 @@ void keyboard(unsigned char key, int x, int y)
 	case 'a': cameraPos -= glm::cross(cameraDir, glm::vec3(0, 1, 0)) * moveSpeed; break;
 		//Strzelanie
 	case 'f':
-		gunfire.push_back(std::make_tuple(glm::vec3(cameraPos), glm::vec3(cameraDir), float(timefour)));
+		gunfire.push_back(std::make_tuple(glm::vec3(cameraPos)-glm::vec3(0,0.05f,0), glm::vec3(cameraDir), float(timefour)));
 		break;
 		//Tryb turbo
 	case 't': moveSpeed = 0.5f;
@@ -371,6 +384,11 @@ void keyboard(unsigned char key, int x, int y)
 			   //Tryb normalny
 	case 'y': moveSpeed = 0.1f;
 		angleSpeed = 0.5f;
+		break;
+	case 'i':
+		gunAngle -= angleSpeed;
+		break;
+	case 'o': gunAngle += angleSpeed;
 		break;
 	}
 }
