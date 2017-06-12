@@ -16,10 +16,11 @@ http://i.imgur.com/f7oGjNh.gif
 - Osiem planet Układu Słonecznego i Słońce (Rafał Piotrowski)
 - Słońce jest w całości oświetlone osobnym shaderem (Mikołaj Balcerek, Rafał Piotrowski)
 - Oteksturowany statek (Mikołaj Balcerek)
+- Przyczepienie "działa" do statku i wycentrowanie pocisków (Rafał Piotrowski)
 - Otaczająca Układ tekstura kosmosu (Mikołaj Balcerek)
 - Tryb turbo, szybszego poruszania się statku - naciśnij T, koniec Y (Rafał Piotrowski)
 - Rozmiary okna, tła, komentarze (Mikołaj Balcerek)
-- Dokumentacja (Mikołaj Balcerek)
+- Dokumentacja, prezentacja (Mikołaj Balcerek)
 
 #### Sterowanie
 - W,S,A,D - poruszanie się przód, tył, lewo, prawo
