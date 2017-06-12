@@ -9,13 +9,20 @@ http://i.imgur.com/f7oGjNh.gif
 ## Funkcjonalności i rozdział ról
 
 - **Planety obracają się wokół własnej osi** (Mikołaj Balcerek, Rafał Piotrowski)
+  *Macierze planet są przemnożone przez macierz rotacji zależnej od czasu   (cos, sin, -sin, cos)*
 - **Planety krążą dookoła Słońca** (Mikołaj Balcerek, Rafał Piotrowski)
-- **Strzelanie pociskami - naciśnij F** (Mikołaj Balcerek)
+*Planety obracane są wokół punktu 0,0,0 za pomocą macierzy translacji   (zachowany luźny stosunek pomiędzy promieniem a prędkością obrotu by symulować prawa Keplera)*
+- **Strzelanie wieloma pociskami - naciśnij F** (Mikołaj Balcerek)
+*Mechanizm zaczerpnięty z poruszania statkiem zapamiętuje pozycję, kierunek statku oraz czas w momencie wystrzelenia i w renderscene oblicza obecną pozycję pocisków*
 - **Światło punktowe pochodzące ze Słońca** (Rafał Piotrowski)
+*Zmodyfikowany shader_tex.frag*
 - **Księżyc dodatkowo krąży dookoła Ziemi** (Mikołaj Balcerek)
+*Macierz translacji Księżyca jest przemnożona przez finalą macierz Ziemi*
 - Osiem planet Układu Słonecznego i Słońce (Rafał Piotrowski)
 - Słońce jest w całości oświetlone osobnym shaderem (Mikołaj Balcerek, Rafał Piotrowski)
+*Nowe shader_tex_sun, funkcja drawObjectTextureSun*
 - Oteksturowany statek (Mikołaj Balcerek)
+*funkcja drawObjectTextureShip*
 - Przyczepienie "działa" do statku i wycentrowanie pocisków (Rafał Piotrowski)
 - Otaczająca Układ tekstura kosmosu (Mikołaj Balcerek)
 - Tryb turbo, szybszego poruszania się statku - naciśnij T, koniec Y (Rafał Piotrowski)
