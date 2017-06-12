@@ -4,7 +4,7 @@ C++ i OpenGL
 Grafika Komputerowa, 2016/2017  
 Autorzy: Mikołaj Balcerek, Rafał Piotrowski  
 
-+![gifv z działającej aplikacji](http://i.imgur.com/OA8eeXt.gifv)
++![gifv z działającej aplikacji](http://i.imgur.com/OA8eeXt.gif)
 
 
 ## Funkcjonalności i rozdział ról
