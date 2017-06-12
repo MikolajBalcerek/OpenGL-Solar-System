@@ -328,7 +328,7 @@ void init()
 	shipModel = obj::loadModelFromFile("models/spaceship.obj");
 	square = obj::loadModelFromFile("models/cube.obj");
 	//square = obj::loadModelFromFile("models/turret3.obj");
-	bullet= obj::loadModelFromFile("models/bullet.obj");
+	//bullet= obj::loadModelFromFile("models/bullet.obj");
 	GLOBAL_VARIABLE = Core::LoadTexture("textures/earth.png");
 	THE_SUN = Core::LoadTexture("textures/sun.png");
 
